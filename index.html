@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>Ser Ativo Home Basic</title>
+<meta name="description" content="Acompanhamento de treinamento físico resistido domiciliar — Hospital das Clínicas UFPE" />
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#1E5EFF" />
+<meta name="mobile-web-app-capable" content="yes" />
+
+<!-- iOS PWA support -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Ser Ativo" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+
+<!-- Favicons -->
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: #F4F6FA;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+  }
+  #root { min-height: 100vh; }
+
+  /* Initial loading screen (shown before React mounts) */
+  #boot-loader {
+    position: fixed; inset: 0;
+    background: #FFFFFF;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px; z-index: 9999;
+  }
+  #boot-loader .logo {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, #1E5EFF, #4A7CFF, #57C84D);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px rgba(30,94,255,0.3);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+  #boot-loader .title {
+    font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 18px; color: #1A2340;
+  }
+</style>
+</head>
+<body>
+
+<div id="boot-loader">
+  <div class="logo">
+    <svg width="36" height="36" viewBox="0 0 32 32" fill="none">
+      <path d="M8 22L14 10L20 16L26 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="16" cy="6" r="3" fill="white" fill-opacity="0.8"/>
+    </svg>
+  </div>
+  <div class="title">Ser Ativo Home Basic</div>
+</div>
+
+<div id="root"></div>
+
+<!-- React + ReactDOM (production builds) -->
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<!-- Babel standalone so we can write JSX directly without a build step -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<!-- jsPDF for PDF report export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script type="text/babel" data-presets="react" src="app.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(<SerAtivoApp />);
+  // Remove the boot loader once React has mounted
+  requestAnimationFrame(() => {
+    const loader = document.getElementById('boot-loader');
+    if (loader) loader.style.display = 'none';
+  });
+</script>
+
+<script>
+  // Register service worker for PWA install + offline support
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js').catch(err => {
+        console.warn('Service worker registration failed:', err);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
