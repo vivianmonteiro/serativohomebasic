@@ -1543,7 +1543,7 @@ function ReportScreen({ setScreen, completedSessions, borgRatings, profile }) {
       const x = 14 + i * (barW + barGap);
       const h = v === 0 ? 2 : (v / maxVal) * barMaxH;
       const by = y + barMaxH - h;
-      doc.setFillColor(i < 2 ? ...azul : i < 4 ? ...verde : 226, i < 4 ? (i < 2 ? 94 : 200) : 230, i < 4 ? (i < 2 ? 255 : 77) : 240);
+     doc.setFillColor(...(i < 2 ? azul : i < 4 ? verde : cinza));
       doc.roundedRect(x, by, barW, h, 2, 2, "F");
       doc.setFontSize(7);
       doc.setFont("helvetica", "normal");
